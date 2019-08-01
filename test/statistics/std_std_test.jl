@@ -1,7 +1,7 @@
 function std_std_test()
 
 	dbg = true;
-	Random.seed(123);
+	Random.seed!(123);
 	nRep = 200;
 
 	# Define samples
