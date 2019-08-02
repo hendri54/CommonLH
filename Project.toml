@@ -4,6 +4,7 @@ authors = ["hendri54 <hendricksl@protonmail.com>"]
 version = "0.1.0"
 
 [deps]
+ConfigLH = "17a1d2b7-f0f8-5fc2-a491-2d61ab6c0a52"
 Formatting = "59287772-0a20-5a39-b81b-1366585eb4c0"
 Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"

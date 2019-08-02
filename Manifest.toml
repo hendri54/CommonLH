@@ -19,6 +19,14 @@ git-tree-sha1 = "84aa74986c5b9b898b0d1acaf3258741ee64754f"
 uuid = "34da2185-b29b-5c13-b0c7-acf172513d20"
 version = "2.1.0"
 
+[[ConfigLH]]
+deps = ["DocStringExtensions", "Printf"]
+git-tree-sha1 = "9fbad49cccaed9df652662b0cc6a875e4b85c401"
+repo-rev = "master"
+repo-url = "https://github.com/hendri54/ConfigLH.git"
+uuid = "17a1d2b7-f0f8-5fc2-a491-2d61ab6c0a52"
+version = "0.1.0"
+
 [[CredentialsHandler]]
 deps = ["Base64", "HTTP", "TOML"]
 uuid = "864e158e-919d-11e8-198e-cfe890ec4681"
@@ -40,6 +48,12 @@ uuid = "8bb1440f-4735-579b-a4ab-409b98df4dab"
 [[Distributed]]
 deps = ["Random", "Serialization", "Sockets"]
 uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
+
+[[DocStringExtensions]]
+deps = ["LibGit2", "Markdown", "Pkg", "Test"]
+git-tree-sha1 = "0513f1a8991e9d83255e0140aace0d0fc4486600"
+uuid = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
+version = "0.8.0"
 
 [[Formatting]]
 deps = ["Compat"]

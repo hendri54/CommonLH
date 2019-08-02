@@ -7,6 +7,8 @@ include("display.jl")
 
 include("matrix.jl")
 
+include("projectLH.jl")
+
 include("statistics.jl")
 
 export retrieve_property, has_property
