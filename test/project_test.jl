@@ -1,6 +1,8 @@
 using CommonLH.ProjectLH
+using CommonLH
 
 @testset "projectLH" begin
+	test_header("ProjectLH")
     pName = "test";
     @test isdir(ProjectLH.project_dir(2018));
     proj = ProjectLH.Project(pName, pwd(), [pwd()]);

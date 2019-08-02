@@ -7,8 +7,6 @@ include("display.jl")
 
 include("matrix.jl")
 
-include("projectLH.jl")
-
 include("statistics.jl")
 
 export retrieve_property, has_property
@@ -18,5 +16,7 @@ export test_header, test_divider, test_dir
 include("testing.jl")
 
 include("vector.jl")
+
+include("projectLH.jl")
 
 end # module
