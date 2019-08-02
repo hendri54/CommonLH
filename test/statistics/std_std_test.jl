@@ -1,5 +1,4 @@
-function std_std_test()
-
+@testset "std_std" begin
 	dbg = true;
 	Random.seed!(123);
 	nRep = 200;
@@ -34,5 +33,6 @@ function std_std_test()
 	end
 
 	@test all(abs.(diffV) .< 1e-2)
-
 end
+
+# ----------

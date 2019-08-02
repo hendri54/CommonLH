@@ -1,6 +1,6 @@
-using Test;
+using Test
 
-using ConfigLH, filesLH
+using CommonLH.FilesLH
 
 struct saveS
     x1
@@ -9,22 +9,20 @@ struct saveS
 end
 
 function file_path()
-    return joinpath(ConfigLH.test_dir(), "load_save_test.jld")
+    return joinpath(testDir, "load_save_test.jld")
 end
 
-function load_save_test()
+@testset "FilesLH" begin
     xS = saveS(1.23, "abc", [1.2 2.3; 3.4 4.5]);
 
     fPath = file_path();
 
-    filesLH.save(fPath, xS);
+    FilesLH.save(fPath, xS);
 
-    yS = filesLH.load(fPath);
+    yS = FilesLH.load(fPath);
 
     @test isequal(xS.x1, yS.x1)
     @test isequal(xS.x2, yS.x2)
-
-    return true
 end
 
-end
+# -------------

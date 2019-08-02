@@ -22,7 +22,6 @@ using CommonLH
 		@test_throws ErrorException validate_scalar(1.1, [], lb = 1.2, ub = 1.3)
 		@test_throws ErrorException validate_scalar(1.1, Integer, lb = 0.9, ub = 1.3)
 		@test_throws ErrorException validate_scalar([1.1, 2.2], [], lb = 1.2, ub = 1.3)
-		return true
 	end
 end
 
