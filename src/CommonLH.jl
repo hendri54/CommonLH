@@ -17,6 +17,4 @@ include("testing.jl")
 
 include("vector.jl")
 
-include("projectLH.jl")
-
 end # module

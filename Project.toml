@@ -1,7 +1,7 @@
 name = "CommonLH"
 uuid = "96c8dc4a-d23f-53b2-b478-aad5d5ab80bd"
 authors = ["hendri54 <hendricksl@protonmail.com>"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 ConfigLH = "17a1d2b7-f0f8-5fc2-a491-2d61ab6c0a52"

@@ -11,7 +11,6 @@ testDir = joinpath(@__DIR__, "test_files");
 	include("statistics_test.jl")
 	include("struct_test.jl")
 	include("vector_test.jl")
-	include("project_test.jl")
 end
 
 # -----------

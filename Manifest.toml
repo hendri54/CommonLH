@@ -20,12 +20,12 @@ uuid = "34da2185-b29b-5c13-b0c7-acf172513d20"
 version = "2.1.0"
 
 [[ConfigLH]]
-deps = ["DocStringExtensions", "Printf"]
-git-tree-sha1 = "9fbad49cccaed9df652662b0cc6a875e4b85c401"
+deps = ["DocStringExtensions", "Pkg", "Printf"]
+git-tree-sha1 = "2f1b545d70f0e87775de6a3ca1bbe187ad8a809e"
 repo-rev = "master"
-repo-url = "https://github.com/hendri54/ConfigLH.git"
+repo-url = "https://github.com/hendri54/ConfigLH"
 uuid = "17a1d2b7-f0f8-5fc2-a491-2d61ab6c0a52"
-version = "0.1.0"
+version = "0.1.1"
 
 [[CredentialsHandler]]
 deps = ["Base64", "HTTP", "TOML"]
