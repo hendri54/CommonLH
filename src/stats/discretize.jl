@@ -15,6 +15,7 @@ end
 
 
 ## Discretize given bounds
+# Equivalent to Discretizers LinearDiscretizer
 function discretize(inV :: Vector{Float64}, edgeV :: Vector{Float64}, dbg :: Bool = false)
     n = length(edgeV);
     outV = zeros(Int64, size(inV));

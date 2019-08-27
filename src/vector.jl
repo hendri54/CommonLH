@@ -12,6 +12,8 @@ end
 
 
 """
+count_elem()
+
 Count the number of times each element occurs in a vector
 NaN is kept as a separate value unless `omitNan` is set
 
@@ -37,6 +39,8 @@ end
 
 
 """
+count_indices()
+
 Count the number of times each element occurs in a vector
 Return vector of counts
 Assumes that values are integer indices

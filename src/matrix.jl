@@ -44,7 +44,9 @@ end
 
 
 """
-## Round to grid
+round_to_grid()
+
+Round a matrix to the nearest points on a grid
 """
 function round_to_grid(xM :: Array{T}, gridV :: Vector{T}) where T <: AbstractFloat
     idxM = similar(xM, Int);
