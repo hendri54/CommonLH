@@ -9,9 +9,6 @@ include("matrix.jl")
 
 include("statistics.jl")
 
-export retrieve_property, has_property
-include("struct.jl")
-
 export test_header, test_divider, test_dir
 include("testing.jl")
 
