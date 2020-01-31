@@ -1,16 +1,26 @@
-module DisplayLH
+"""
+	$(SIGNATURES)
 
-using Formatting
-using Printf
-
-export show_string_vector
+Show a text file on the screen.
+"""
+function show_text_file(filePath; io = stdout)
+    _, fName = splitdir(filePath);
+    println(io, "----------  $fName  ----------");
+    for line in eachline(filePath) 
+        println(io, line);
+    end
+    println(io, "--------------------");
+    return nothing;
+end
 
 
 """
-## Display string vector on fixed with screen
+    $(SIGNATURES)
+
+Display string vector on fixed with screen.
 """
-function show_string_vector(sV :: Vector{T1},  width :: T2 = 80) where
-    {T1 <: AbstractString,  T2 <: Integer}
+function show_string_vector(sV :: Vector{T1},  width :: Integer = 80) where
+    T1 <: AbstractString
 
     n = length(sV);
     if n < 1
@@ -35,6 +45,33 @@ function show_string_vector(sV :: Vector{T1},  width :: T2 = 80) where
 end
 
 
+function string_vector_to_lines(sV :: Vector{T1}, width :: Integer = 80) where
+    T1 <: AbstractString
+
+    lineV = Vector{T1}();
+    if isempty(sV)
+        return lineV
+    end
+
+    n = length(sV);
+
+    line = "";
+    for s in sV
+        if !isempty(s)
+            if length(s) + length(line) > width
+                # Start new line
+                push!(lineV, line);
+                line = "";
+            end
+            line = line * s * "    ";
+        end
+    end
+    push!(lineV, line);
+    return lineV
+end
+
+
+
 """
 Print numeric vector (or array with 1 dim)
 
@@ -42,25 +79,24 @@ IN
     fmtStr
         formatting string that works with Formatting package
 """
-function sprintf(fmtStr :: String, x :: Array{T}) where T <: Number
-    x2 = vec(x)
-    outStr = "";
-    for xVal in x2
-      outStr = outStr * Formatting.format(fmtStr, xVal)
-    end
-    return outStr
-end
+# function sprintf(fmtStr :: String, x :: Array{T}) where T <: Number
+#     x2 = vec(x)
+#     outStr = "";
+#     for xVal in x2
+#       outStr = outStr * Formatting.format(fmtStr, xVal)
+#     end
+#     return outStr
+# end
 
-# Scalar input
-function sprintf(fmtStr :: String, x :: T1) where T1 <: Number
-    return sprintf(fmtStr, [x])
-end
-
-
-function printf(fmtStr :: String,  x :: Array{T}) where T <: Number
-    print(sprintf(fmtStr, x));
-    return nothing
-end
+# # Scalar input
+# function sprintf(fmtStr :: String, x :: T1) where T1 <: Number
+#     return sprintf(fmtStr, [x])
+# end
 
 
-end # module
+# function printf(fmtStr :: String,  x :: Array{T}) where T <: Number
+#     print(sprintf(fmtStr, x));
+#     return nothing
+# end
+
+# ---------------------
