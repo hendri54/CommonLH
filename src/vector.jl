@@ -1,8 +1,14 @@
 """
 	$(SIGNATURES)
 
-Given an increasing `Vector{Integer}` called `gridV`, find the index values of all entries in another (weakly) increasing `Vector` called `valueV`.
+For each value in `valueV` (a weakly increasing `Vector`), find the corresponding indices in `gridV` (also an increasing `Vector{Integer}`).
 If no match is found, set indices to 0.
+
+## Example
+```
+julia> find_indices([2, 4], -2 : 2 : 10) == [3, 4]
+true
+```
 """
 function find_indices(valueV :: Vector{T1}, gridV; 
     notFoundError :: Bool = false)  where T1 <: Integer
