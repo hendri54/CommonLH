@@ -8,10 +8,13 @@ export show_text_file, show_string_vector
 export KwArgs, default_value, has_default, kw_arg
 # User input
 export ask_for_choice, ask_yes_no
+# Vector
+export find_indices
 
 include("kwargs.jl")
 include("display.jl")
 include("user_input.jl")
+include("vector.jl")
 
 # export validate, validate_scalar
 # include("check.jl")
@@ -24,6 +27,5 @@ include("user_input.jl")
 # export test_header, test_divider, test_dir
 # include("testing.jl")
 
-# include("vector.jl")
 
 end # module
