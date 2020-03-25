@@ -3,6 +3,7 @@
 
 For each value in `valueV` (a weakly increasing `Vector`), find the corresponding indices in `gridV` (also an increasing `Vector{Integer}`).
 If no match is found, set indices to 0.
+Returns a `Vector` even if only one value is given.
 
 ## Example
 ```
@@ -10,15 +11,20 @@ julia> find_indices([2, 4], -2 : 2 : 10) == [3, 4]
 true
 ```
 """
-function find_indices(valueV :: Vector{T1}, gridV; 
-    notFoundError :: Bool = false)  where T1 <: Integer
-
+function find_indices(valueV, gridV;  notFoundError :: Bool = false)
+    @argcheck eltype(valueV) <: Integer
     nGrid = length(gridV);
     idxV = zeros(Int, size(valueV));
     # Last value of `gridV` that was matched
     lastIdx = 1;
     for (j, value) in enumerate(valueV)
-        # First grid point (weakly) above current value
+        # lastIdx = find_index(value, gridV; startIdx = lastIdx);
+        # if !isnothing(lastIdx)
+        #     idxV[j] = lastIdx;
+        # else
+            # # No grid point matches current value. Done.
+            # break
+        # end
         lastIdx = findnext(x -> x >= value, gridV, lastIdx);
         if isnothing(lastIdx) 
             # No grid point matches current value. Done.
@@ -34,6 +40,20 @@ function find_indices(valueV :: Vector{T1}, gridV;
     end
     return idxV
 end
+
+
+function find_index(value :: T1, gridV;  startIdx = 1)  where T1 <: Number
+    # First grid point (weakly) above current value
+    idx = findnext(x -> x >= value, gridV, startIdx);
+    if isnothing(idx) 
+        return nothing
+    elseif isequal(value, gridV[idx])
+        return idx
+    else
+        return nothing
+    end
+end
+
 
 # module VectorLH
 

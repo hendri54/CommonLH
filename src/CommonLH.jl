@@ -9,7 +9,7 @@ export KwArgs, default_value, has_default, kw_arg
 # User input
 export ask_for_choice, ask_yes_no
 # Vector
-export find_indices
+export find_indices, find_index
 
 include("kwargs.jl")
 include("display.jl")

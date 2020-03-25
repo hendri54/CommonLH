@@ -18,6 +18,15 @@ function find_indices_test()
 		# Above and below the grid
 		idxV = find_indices([0, 4, 11], gridV);
 		@test idxV == [0, 2, 0]
+
+		# Scalar input
+		idxV = find_indices(4, gridV);
+		@test length(idxV) == 1
+		@test gridV[idxV[1]] == 4
+
+		idx = find_index(4, gridV);
+		@test isa(idx, Integer)
+		@test gridV[idx] == 4
 	end
 end
 
