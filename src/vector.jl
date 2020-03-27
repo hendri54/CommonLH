@@ -55,6 +55,22 @@ function find_index(value :: T1, gridV;  startIdx = 1)  where T1 <: Number
 end
 
 
+## --------  Comparisons
+# Easier to write versions that check whether all elements of a vector are inside bounds
+# Must be efficient!
+
+all_at_least(xV, lb) = all(x -> x >= lb, xV);
+all_at_most(xV, ub) = all(x -> x <= ub, xV);
+all_greater(xV, lb) = all(x -> x > lb, xV);
+all_less(xV, ub) = all(x -> x < ub, xV);
+
+any_at_least(xV, lb) = any(x -> x >= lb, xV);
+any_at_most(xV, ub) = any(x -> x <= ub, xV);
+any_greater(xV, lb) = any(x -> x > lb, xV);
+any_less(xV, ub) = any(x -> x < ub, xV);
+
+any_nan(xV) = any(x -> isnan(x), xV);
+
 # module VectorLH
 
 # using StatsBase
