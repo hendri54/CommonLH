@@ -13,11 +13,14 @@ export find_indices, find_index,
     all_at_least, all_at_most, all_greater, all_less,
     any_at_least, any_at_most, any_greater, any_less,
     any_nan
+# Grids
+export AbstractGrid, LinearGrid, LinSpacedGrid, PowerSpacedGrid, grid, intervals
 
 include("kwargs.jl")
 include("display.jl")
 include("user_input.jl")
 include("vector.jl")
+include("grids.jl")
 
 # export validate, validate_scalar
 # include("check.jl")

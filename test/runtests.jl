@@ -6,6 +6,7 @@ testDir = joinpath(@__DIR__, "test_files");
 include("kwargs_test.jl")
 include("display_test.jl")
 include("vector_test.jl")
+include("grid_test.jl")
 
 @testset "CommonLH" begin
 	kwargs_test()
