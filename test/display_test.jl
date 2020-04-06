@@ -18,4 +18,8 @@ function display_test()
 	end
 end
 
+@testset "Display" begin
+	display_test()
+end
+
 # -----------

@@ -84,13 +84,9 @@ end
 # 	end
 # end
 
-#@testset "vectorLH" begin
-#    println("Test set vectorLH")
-#    countbool" begin
-#    count_elem" begin
-#    counts_from_fractions" begin
-#    counts_to_indices" begin
-#    scale_vector" begin
-#end
+@testset "vectorLH" begin
+	println("Test set vectorLH")
+	find_indices_test()
+end
 
 # ----------

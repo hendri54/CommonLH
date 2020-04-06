@@ -29,4 +29,9 @@ function kwargs_test()
     end
 end
 
+
+@testset "KwArgs" begin
+    kwargs_test()
+end
+
 # ---------
