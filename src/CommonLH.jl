@@ -4,6 +4,7 @@ using ArgCheck, DocStringExtensions, Formatting, Printf
 
 # Display
 export show_text_file, show_string_vector
+export MultiIO, print_flush, println_flush
 # Keyword arguments
 export KwArgs, default_value, has_default, kw_arg
 # User input

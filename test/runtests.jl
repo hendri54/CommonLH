@@ -1,7 +1,7 @@
 using CommonLH
 using Test
 
-testDir = joinpath(@__DIR__, "test_files");
+test_dir() = joinpath(@__DIR__, "test_files");
 
 
 @testset "CommonLH" begin

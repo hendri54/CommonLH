@@ -9,7 +9,7 @@ function show_text_file(filePath; io = stdout)
     for line in eachline(filePath) 
         println(io, line);
     end
-    println(io, "--------------------");
+    println(io, "----------  [end] $fName  ----------");
     return nothing;
 end
 
@@ -71,14 +71,71 @@ function string_vector_to_lines(sV :: Vector{T1}, width :: Integer = 80) where
 end
 
 
+## ------------  Print to multiple IO streams 
 
 """
-Print numeric vector (or array with 1 dim)
+	$(SIGNATURES)
 
-IN
-    fmtStr
-        formatting string that works with Formatting package
+Object that holds multiple IO streams, so that a single `print` statement can be directed to all of them. Main use case: selectively write to optimization log and stdout.
+This must be a subtype of IO for dispatch to work correctly.
+
+Based on https://discourse.julialang.org/t/issues-with-println-buffering-output-when-redirecting-stdout-to-a-txt-file/23738/13
 """
+struct MultiIO{T} <: IO
+    ioV :: Vector{T}
+end
+
+function Base.print(io :: MultiIO, args...)
+    for io in io.ioV
+        print(io, args...);
+    end
+end
+
+# Avoid method ambiguity
+function Base.print(io :: MultiIO, s :: Union{SubString{String}, String})
+    for io in io.ioV
+        print(io, s);
+    end
+end
+
+function Base.println(io :: MultiIO, args...)
+    for io in io.ioV
+        println(io, args...);
+    end
+end
+
+# Avoid method ambiguity
+function Base.println(io :: MultiIO, s :: Union{SubString{String}, String})
+    for io in io.ioV
+        println(io, s);
+    end
+end
+
+function print_flush(io :: MultiIO, args...)
+    print(io, args...);
+    flush(io);
+end
+
+function println_flush(io :: MultiIO, args...)
+    println(io, args...);
+    flush(io);
+end
+
+function Base.flush(io :: MultiIO)
+    for io in io.ioV
+        flush(io);
+    end
+end
+
+
+
+# """
+# Print numeric vector (or array with 1 dim)
+
+# IN
+#     fmtStr
+#         formatting string that works with Formatting package
+# """
 # function sprintf(fmtStr :: String, x :: Array{T}) where T <: Number
 #     x2 = vec(x)
 #     outStr = "";

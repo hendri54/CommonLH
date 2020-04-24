@@ -18,8 +18,24 @@ function display_test()
 	end
 end
 
+function multi_io_test()
+	@testset "MultIO" begin
+		fPath = joinpath(test_dir(), "multi_io_test.txt");
+		open(fPath, "w") do io
+			mio = MultiIO([stdout, io]);
+			print(mio, "Line 1\n");
+			println(mio, "Line 2");
+		end
+		lineV = readlines(fPath);
+		for j = 1 : 2
+			@test lineV[j] == "Line $j"
+		end
+	end
+end
+
 @testset "Display" begin
 	display_test()
+	multi_io_test()
 end
 
 # -----------
