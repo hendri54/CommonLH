@@ -1,7 +1,7 @@
 name = "CommonLH"
 uuid = "96c8dc4a-d23f-53b2-b478-aad5d5ab80bd"
 authors = ["hendri54 <hendricksl@protonmail.com>"]
-version = "0.3.1"
+version = "0.3.2"
 
 [deps]
 ArgCheck = "dce04be8-c92d-5529-be00-80e4d2c0e197"
