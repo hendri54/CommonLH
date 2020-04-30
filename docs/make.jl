@@ -8,6 +8,8 @@ makedocs(
     pages = Any["index.md"]
 )
 
-deploydocs(
-    repo = "github.com/hendri54/CommonLH.jl.git",
-)
+# deploydocs(
+#     repo = "github.com/hendri54/CommonLH.jl.git",
+# )
+
+# ----------------

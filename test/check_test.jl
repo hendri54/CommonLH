@@ -1,28 +1,34 @@
-using Test
-using CommonLH
+using CommonLH, Random, Test
 
-@testset "checkLH" begin
-	@testset "validate" begin
-		@test_throws ErrorException validate(1.2, Float64)
-
-		validate([1.2, 2.3], Float64)
-		validate([1.2, 2.3], Float64, sz = (2,), lb = 1.0)
-		validate([1.2 2.1; 2.2 3.2], Float64, sz = (2,2))
-		# checkLH.validate(1.2, Float64, sz = ())
-		validate([1.2, 2.3], [], lb = 1.1)
-
-		@test_throws DimensionMismatch validate([1.2, 2.3, 3.4], Float64, sz = (2,))
-		@test_throws ErrorException  validate([2.1, 3.2], Float64, ub = 3.1)
-	end
+function check_float_test()
+    @testset "Check float" begin
+        @test check_float(1.2)
+        @test check_float(-1.23; ub = -1.23)
+        @test !check_float(1.2; lb = 1.2001)
+        @test !check_float(NaN64)
+        @test !check_float(-Inf)
+    end
+end
 
 
-	@testset "validate_scalar" begin
-		validate_scalar(1.1, Float64, lb = 0.9, ub = 1.2)
-		validate_scalar(1, Integer, lb = 0.9, ub = 1.3)
-		@test_throws ErrorException validate_scalar(1.1, [], lb = 1.2, ub = 1.3)
-		@test_throws ErrorException validate_scalar(1.1, Integer, lb = 0.9, ub = 1.3)
-		@test_throws ErrorException validate_scalar([1.1, 2.2], [], lb = 1.2, ub = 1.3)
+function check_array_test()
+    @testset "Check float array" begin
+        rng = MersenneTwister(32);
+        dimV = (3,4,5);
+        T1 = Float32;
+        lb = -1.0;
+        ub = Inf;
+        m = lb .+ rand(rng, T1, dimV...);
+        @test check_float_array(m, lb, ub)
+        m[10] = lb - 1e-5;
+        @test !check_float_array(m, lb, ub)
 	end
 end
 
-# -----------
+
+@testset "Checks" begin
+    check_float_test()
+    check_array_test()
+end
+
+# ------------

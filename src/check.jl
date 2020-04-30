@@ -1,89 +1,73 @@
 """
-## validate
+    $(SIGNATURES)
 
-Replacement for validateattributes
-Numeric arrays only
-
-All checks go through when there are NaN values
-
-IN
-    typeStr  ::  DataType
-        e.g. Float64
-        matches x being scalar or array of that type
-  lb, ub
-    can be scalars
+Check a scalar: should be real, finite, not nan, in optional bounds.
+Real is implied by being `AbstractFloat`.
 """
-function validate(x, typeStr = Float64; sz = [], lb = [], ub = [], nonNan = true)
-    if isa(typeStr, DataType)
-        if !isa(x, Array{typeStr})
-            throw(ErrorException("Not Array of $typeStr"))
-        end
+function check_float(x :: T1; lb = nothing, ub = nothing) where T1 <: AbstractFloat
+    isValid = true;
+    if !isfinite(x)
+        isValid = false; 
+        @warn "Not finite"
     end
-
-    check_bounds(x, lb, ub);
-
-    # Works when NaN present
-    # if !isreal(x)
-    #   throw(ErrorException("Complex values encountered"))
-    # end
-    if any(isinf.(x))
-    throw(ErrorException("Inf encountered"))
+    if !isnothing(lb)  &&  (x < lb - 1e-8)
+        isValid = false;
+        @warn "Below $lb"
     end
-
-    if nonNan
-        if any(isnan.(x))
-          throw(ErrorException("NaN encountered"))
-        end
+    if !isnothing(ub)  &&  (x > ub + 1e-8)
+        isValid = false;
+        @warn "Above $ub"
     end
-
-    # Size of a scalar is ()
-    if length(sz) > 0
-        if !isequal(size(x), sz)
-            throw(DimensionMismatch("size(x) = $(size(x)),  sz = $sz"))
-        end
+    if !isValid
+        println("Input value: $x");
     end
-    return nothing
+    return isValid
+end
+
+# Catches cases where the input is not `AbstractFloat`
+function check_float(x; kwargs...)
+    @warn "Not an AbstractFloat: $x"
+    return false
 end
 
 
 """
-## Validate numerical scalar
+	$(SIGNATURES)
+
+Check that a numeric array is finite, not NaN, and inside bounds.
 """
-function validate_scalar(x, typeStr = Float64; lb = [], ub = [], nonNan = true)
-    if isa(typeStr, DataType)
-        if !isa(x, typeStr)
-            throw(ErrorException("Not a $typeStr"))
-        end
+function check_float_array(m :: Array{T1}, lb :: T2, ub :: T2) where {T1 <: AbstractFloat, T2 <: AbstractFloat}
+
+    isValid = true;
+
+    anyInf = any(x -> !isfinite(x), m);
+    if anyInf
+        isValid = false;
+        nInf = sum(x -> !isfinite(x), m);
+        @warn "$nInf elements not finite"
     end
-    check_bounds(x, lb, ub);
-    if any(isinf.(x))
-        throw(ErrorException("Inf encountered"))
+
+    validLb = !isfinite(lb)  ||  all(x -> x >= lb, m);
+    if !validLb
+        isValid = false;
+        mMin, idxMin = findmin(m);
+        @warn """
+            Array lower bound violated: $mMin < $lb
+            at  $idxMin
+            """
     end
-    if nonNan
-        if any(isnan.(x))
-            throw(ErrorException("NaN encountered"))
-        end
+
+    validUb = !isfinite(ub)  ||  all(x -> x <= ub, m);
+    if !validUb
+        isValid = false;
+        mMax, idxMax = findmax(m);
+        @warn """
+            Array upper bound violated: $mMax < $ub
+            at  $idxMax
+            """
     end
-    return nothing
+
+    return isValid
 end
 
-
-"""
-## Check bounds
-"""
-function check_bounds(x, lb, ub)
-    # Can check bounds including Nan values
-    if !isempty(lb)
-      if any(x .< lb)
-        throw(ErrorException("Min x: $(minimum(x))"))
-      end
-    end
-    if !isempty(ub)
-      if any(x .> ub)
-        throw(ErrorException("Max x: $(maximum(x))"))
-      end
-    end
-    return nothing
-end
-
-# -----------
+# ------------------
