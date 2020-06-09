@@ -20,6 +20,8 @@ export find_indices, find_index,
 export AbstractGrid, LinearGrid, LinSpacedGrid, PowerSpacedGrid, grid, intervals
 # Probability matrices
 export validate_prob_matrix, validate_prob_vector, prob_j, prob_k, prob_j_k, prob_k_j, ev_given_j, ev_given_k
+# Arrays
+export scale_array!
 
 include("kwargs.jl")
 include("check.jl")
@@ -28,6 +30,7 @@ include("user_input.jl")
 include("vector.jl")
 include("grids.jl")
 include("probabilities.jl")
+include("arrays.jl");
 
 # export validate, validate_scalar
 # include("check.jl")

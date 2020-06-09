@@ -38,10 +38,16 @@ prob_k(m :: AbstractMatrix, k) = vec(sum(m[:, k], dims = 1));
 """
     $(SIGNATURES)
 
-Conditional probability (j | k) or (k | j).
+Conditional probability (j | k).
 """
 prob_j_k(m :: AbstractMatrix, j, k :: Integer) = 
     m[j, k] ./ prob_k(m, k);
+
+"""
+    $(SIGNATURES)
+
+Conditional probability (k | j).
+"""
 prob_k_j(m :: AbstractMatrix, k, j :: Integer) =
     m[j, k] ./ prob_j(m, j);
 
@@ -55,10 +61,17 @@ Compute expected value of `x`, given row index `j`. Based on matrix of values `x
 """
 ev_given_j(x :: AbstractMatrix, prM :: AbstractMatrix, j :: Integer) = 
     sum([(prob_k_j(prM, k, j) * x[j, k])  for k = 1 : size(x, 2) ]);
-ev_given_k(x :: AbstractMatrix, prM :: AbstractMatrix, k :: Integer) = 
-    sum([(prob_j_k(prM, j, k) * x[j, k])  for j = 1 : size(x, 1) ]);
 ev_given_j(x :: AbstractMatrix, prM :: AbstractMatrix) = 
     [ev_given_j(x, prM, j)  for j = 1 : size(x, 1)];
+
+
+"""
+	$(SIGNATURES)
+
+Compute expected value of `x`, given column index `k`. Based on matrix of values `xM[j,k]` and matrix of probabilities (sum to 1) `prM[j, k]`.
+"""
+ev_given_k(x :: AbstractMatrix, prM :: AbstractMatrix, k :: Integer) = 
+    sum([(prob_j_k(prM, j, k) * x[j, k])  for j = 1 : size(x, 1) ]);
 ev_given_k(x :: AbstractMatrix, prM :: AbstractMatrix) = 
     [ev_given_k(x, prM, k)  for k = 1 : size(x, 2)];
 

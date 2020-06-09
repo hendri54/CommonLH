@@ -2,7 +2,7 @@ using Documenter, CommonLH
 
 makedocs(
     modules = [CommonLH],
-    format = :html,
+    format = Documenter.HTML(prettyurls = get(ENV, "CI", nothing) == "true"),
     checkdocs = :exports,
     sitename = "CommonLH.jl",
     pages = Any["index.md"]
