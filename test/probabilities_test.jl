@@ -77,6 +77,19 @@ function ev_test()
     end
 end
 
+function scale_test()
+    @testset "Scale prob array" begin
+        x = rand(4,3,2) ./ 5.0;
+        x[2 : 2 : 8] .= -0.000000001;
+        x ./= sum(x);
+        x .+= 0.000000001;
+        scale_prob_array!(x);
+        @test sum(x) <= 1.0
+        @test all(x .>= 0.0)
+	end
+end
+
+
 @testset "Probabilities" begin
     ev_test()
     prob_matrix_test()

@@ -27,12 +27,22 @@ validate_prob_vector(probV :: AbstractVector{T1}) where T1 <: AbstractFloat =
 
 Conditional probabilities of rows or columns given a probability matrix.
 """
-prob_j(m :: AbstractMatrix) = vec(sum(m, dims = 2));
-prob_k(m :: AbstractMatrix) = vec(sum(m, dims = 1));
-prob_j(m :: AbstractMatrix, j :: Integer) = sum(m[j,:]);
-prob_k(m :: AbstractMatrix, k :: Integer) = sum(m[:, k]);
-prob_j(m :: AbstractMatrix, j) = sum(m[j, :], dims = 2);
-prob_k(m :: AbstractMatrix, k) = vec(sum(m[:, k], dims = 1));
+prob_j(m :: AbstractMatrix{T1}) where T1 <: AbstractFloat = vec(sum(m, dims = 2));
+prob_j(m :: AbstractMatrix{T1}, j :: Integer) where T1 <: AbstractFloat = 
+    sum(m[j,:]);
+prob_j(m :: AbstractMatrix{T1}, j) where T1 <: AbstractFloat = 
+    sum(m[j, :], dims = 2);
+
+"""
+	$(SIGNATURES)
+
+Conditional probabilities of rows or columns given a probability matrix.
+"""
+prob_k(m :: AbstractMatrix{T1}) where T1 <: AbstractFloat = vec(sum(m, dims = 1));
+prob_k(m :: AbstractMatrix{T1}, k :: Integer) where T1 <: AbstractFloat = 
+    sum(m[:, k]);
+prob_k(m :: AbstractMatrix{T1}, k) where T1 <: AbstractFloat = 
+    vec(sum(m[:, k], dims = 1));
 
 
 """
@@ -74,6 +84,30 @@ ev_given_k(x :: AbstractMatrix, prM :: AbstractMatrix, k :: Integer) =
     sum([(prob_j_k(prM, j, k) * x[j, k])  for j = 1 : size(x, 1) ]);
 ev_given_k(x :: AbstractMatrix, prM :: AbstractMatrix) = 
     [ev_given_k(x, prM, k)  for k = 1 : size(x, 2)];
+
+
+    """
+    $(SIGNATURES)
+
+Given an array of probabilities: ensure that all are in [0, 1]. 
+Error if bounds violation larger than rounding errors.
+Make sure that sum does not exceed an upper bound.
+"""
+function scale_prob_array!(m :: AbstractArray{F1}; maxSum :: F1 = one(F1)) where F1 <: AbstractFloat
+
+    fSmall = F1(.0000001);
+    pSum = sum(m);
+    @assert (pSum < one(F1) + fSmall)  "Sum too large: $pSum"
+    @assert all_at_least(m, -fSmall)  "Negative probabilities"
+    @assert all_at_most(m, one(F1) + fSmall)  "Probabilities above 1"
+
+    if any(x -> x < zero(F1), m)
+        m[findall(x -> x < zero(F1), m)] .= zero(F1);
+    end
+    if pSum > maxSum
+        m .*= ((maxSum - fSmall) / pSum);
+    end
+end
 
 
 # ---------

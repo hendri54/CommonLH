@@ -1,3 +1,17 @@
+using CommonLH, Test
+
+function bisecting_test()
+	@testset "Bisecting indices" begin
+		println("Bisecting indices")
+		@test bisecting_indices(1, 1) == [1]
+		@test bisecting_indices(2, 3) == [2, 3]
+		@test bisecting_indices(12, 14) == [12, 14, 13]
+		@test bisecting_indices(12, 16) == [12, 16, 14, 13, 15]
+
+		@test sort(bisecting_indices(12, 35)) == collect(12 : 35)
+	end
+end
+
 function find_indices_test()
 	@testset "find_indices" begin
 		gridV = collect(2 : 2 : 10);
@@ -87,6 +101,7 @@ end
 @testset "vectorLH" begin
 	println("Test set vectorLH")
 	find_indices_test()
+	bisecting_test();
 end
 
 # ----------

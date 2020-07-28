@@ -1,3 +1,6 @@
+# WARNING:
+# CommonLH is loaded when Julia starts. Therefore, even when its environment is active, changes are not visible in the REPL!
+
 module CommonLH
 
 using ArgCheck, DocStringExtensions, Formatting, Printf
@@ -12,14 +15,14 @@ export KwArgs, default_value, has_default, kw_arg
 # User input
 export ask_for_choice, ask_yes_no
 # Vector
-export find_indices, find_index,
+export bisecting_indices, find_indices, find_index,
     all_at_least, all_at_most, all_greater, all_less,
     any_at_least, any_at_most, any_greater, any_less,
     any_nan
 # Grids
 export AbstractGrid, LinearGrid, LinSpacedGrid, PowerSpacedGrid, grid, intervals
 # Probability matrices
-export validate_prob_matrix, validate_prob_vector, prob_j, prob_k, prob_j_k, prob_k_j, ev_given_j, ev_given_k
+export validate_prob_matrix, validate_prob_vector, prob_j, prob_k, prob_j_k, prob_k_j, ev_given_j, ev_given_k, scale_prob_array!
 # Arrays
 export scale_array!
 

@@ -1,3 +1,41 @@
+# """
+# 	$(SIGNATURES)
+
+# Given a range `1:n`, return indices in "interval-halving" order.
+# The purpose is to determine the order in which ordered computations should be performed efficiently when surrounding values provide bounds for inner values.
+
+# # Example
+# ```
+# bisecting_indices(5) == [1, 5, 3, 2, 4]
+# ```
+# """
+function bisecting_indices(iLow :: I1, iHigh :: I1) where I1 <: Integer
+    n = iHigh - iLow + 1;
+    if n < 3
+        return iLow : iHigh;
+    end
+
+    idxV = zeros(I1, n);
+    idxV[1] = iLow;
+    idxV[2] = iHigh;
+    iMid = round(I1, (iLow + iHigh) / 2);
+    idxV[3] = iMid;
+
+    # Lower half
+    nLow = iMid - iLow - 1;
+    if nLow >= 1
+        idxV[4 : (3 + nLow)] = bisecting_indices(iLow + 1, iMid - 1);
+    end
+     
+    # Upper half
+    nHigh = iHigh - iMid - 1;
+    if nHigh >= 1
+        idxV[(4 + nLow) : n] = bisecting_indices(iMid + 1, iHigh - 1);
+    end
+    return idxV
+end
+
+
 """
 	$(SIGNATURES)
 
