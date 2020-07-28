@@ -24,14 +24,38 @@ function bisecting_indices(iLow :: I1, iHigh :: I1) where I1 <: Integer
     # Lower half
     nLow = iMid - iLow - 1;
     if nLow >= 1
-        idxV[4 : (3 + nLow)] = bisecting_indices(iLow + 1, iMid - 1);
+        idxV[4 : (3 + nLow)] = bisect_interior(iLow, iMid);
     end
      
     # Upper half
     nHigh = iHigh - iMid - 1;
     if nHigh >= 1
-        idxV[(4 + nLow) : n] = bisecting_indices(iMid + 1, iHigh - 1);
+        idxV[(4 + nLow) : n] = bisect_interior(iMid, iHigh);
     end
+    return idxV
+end
+
+function bisect_interior(iLow :: I1, iHigh :: I1) where I1 <: Integer
+    @assert iHigh > iLow + one(I1)        
+    idxV = zeros(I1, iHigh - iLow - 1);
+
+    iMid = round(I1, (iLow + iHigh) / 2);
+    idxV[1] = iMid;
+
+    # Lower half
+    nLow = iMid - iLow - 1;
+    if nLow > 0
+        idxV[2 : (1 + nLow)] .= bisect_interior(iLow, iMid);
+    else
+        nLow = 0;
+    end
+
+    nHigh = iHigh - iMid - 1;
+    if nHigh > 0
+        idxHigh1 = 2 + nLow;
+        idxV[idxHigh1 : (idxHigh1 - 1 + nHigh)] .= bisect_interior(iMid, iHigh);
+    end
+
     return idxV
 end
 
