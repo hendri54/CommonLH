@@ -1,4 +1,3 @@
-
 """
 $(SIGNATURES)
 
@@ -16,5 +15,24 @@ function scale_array!(x :: AbstractArray{F1}, d :: Integer, totalV :: AbstractVe
     end
     return nothing
 end
+
+
+"""
+$(SIGNATURES)
+
+Bracket an array between lower and upper bounds. In place.
+"""
+function bracket_array!(x :: F1, lb :: F1, ub :: F1) where F1 <: AbstractArray
+    @assert size(x) == size(lb) == size(ub)
+    for (k, v) in enumerate(x)
+        if v > ub[k]
+            x[k] = ub[k];
+        elseif v < lb[k]
+            x[k] = lb[k];
+        end
+    end
+    return nothing
+end
+
 
 # ------------

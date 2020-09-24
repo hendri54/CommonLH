@@ -24,7 +24,7 @@ export AbstractGrid, LinearGrid, LinSpacedGrid, PowerSpacedGrid, grid, intervals
 # Probability matrices
 export validate_prob_matrix, validate_prob_vector, prob_j, prob_k, prob_j_k, prob_k_j, ev_given_j, ev_given_k, scale_prob_array!
 # Arrays
-export scale_array!
+export bracket_array!, scale_array!
 
 include("kwargs.jl")
 include("check.jl")

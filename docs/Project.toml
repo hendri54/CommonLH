@@ -1,5 +1,4 @@
 [deps]
+CommonLH = "96c8dc4a-d23f-53b2-b478-aad5d5ab80bd"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
-
-[compat]
-Documenter = "~0.20"
+FilesLH = "69233b93-b644-4f5d-9b2e-8880c8b19068"

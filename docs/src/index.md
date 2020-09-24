@@ -2,10 +2,25 @@
 
 This package collects general purpose code that does not "fit" into other packages with more well defined topics.
 
+## Checking properties
+
+```@docs
+check_float
+check_float_array
+```
+
 ## Array operations
 
 ```@docs
+bracket_array!
 scale_array!
+all_at_least
+all_at_most
+all_greater
+all_at_most
+any_greater
+any_less
+any_nan
 ```
 
 ## Vector operations
@@ -13,6 +28,7 @@ scale_array!
 ```@docs
 bisecting_indices
 find_indices
+find_index
 ```
 
 ## Probabilities

@@ -1,5 +1,26 @@
 using CommonLH, Test
 
+function compare_test()
+	@testset "Comparisons" begin
+		x = [1.0 1.1 1.2; 2.0 2.1 2.2];
+		@test any_greater(x, 2.1999)
+		@test !any_greater(x, 2.2)
+		@test !any_greater(x, 2.1999; atol = 0.001)
+
+		@test any_less(x, 1.001)
+		@test !any_less(x, 1.0)
+		@test !any_less(x, 1.0001; atol = 0.001)
+
+		@test all_greater(x, 0.9999)
+		@test !all_greater(x, 1.0)
+		@test all_greater(x, 1.0; atol = 0.0001)
+
+		@test all_less(x, 2.2001)
+		@test !all_less(x, 2.2)
+		@test all_less(x, 2.2; atol = 0.0001)
+	end
+end
+
 function bisecting_test()
 	@testset "Bisecting indices" begin
 		println("Bisecting indices")
@@ -102,6 +123,7 @@ end
 	println("Test set vectorLH")
 	find_indices_test()
 	bisecting_test();
+	compare_test();
 end
 
 # ----------
