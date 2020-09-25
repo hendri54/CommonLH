@@ -18,6 +18,14 @@ function compare_test()
 		@test all_less(x, 2.2001)
 		@test !all_less(x, 2.2)
 		@test all_less(x, 2.2; atol = 0.0001)
+
+		@test all_greater(x, x .- 0.001)
+		@test !all_greater(x, x)
+		@test all_greater(x, x .- 0.001; atol = 0.003)
+
+		@test all_less(x, x .+ 0.001)
+		@test !all_less(x, x)
+		@test all_less(x, x .+ 0.001; atol = 0.003)
 	end
 end
 

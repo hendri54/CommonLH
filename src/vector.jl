@@ -140,16 +140,22 @@ all_at_most(xV, ub) = all(x -> x <= ub, xV);
 
 Strictly check that all elements are above a lower bound.
 """
-all_greater(xV, lb :: F1; atol = zero(F1)) where F1 = 
+all_greater(xV, lb :: F1; atol = zero(F1)) where F1 <: Real = 
     all(x -> x > lb - atol, xV);
+
+all_greater(xV :: AbstractArray{<:Real}, yV :: AbstractArray{T}; atol = zero(T)) where T <: Real =
+    all(map((x,y) -> x > y - atol,  xV, yV));
 
 """
 	$(SIGNATURES)
 
 Strictly check that all elements are below an upper bound.
 """
-all_less(xV, ub :: F1; atol = zero(F1)) where F1 =  
+all_less(xV, ub :: F1; atol = zero(F1)) where F1 <: Real =  
     all(x -> x < ub + atol, xV);
+
+all_less(xV :: AbstractArray{<:Real}, yV :: AbstractArray{T}; atol = zero(T)) where T <: Real =
+    all(map((x,y) -> x < y + atol,  xV, yV));
 
 """
 	$(SIGNATURES)
