@@ -1,14 +1,14 @@
-# """
-# 	$(SIGNATURES)
+"""
+	$(SIGNATURES)
 
-# Given a range `1:n`, return indices in "interval-halving" order.
-# The purpose is to determine the order in which ordered computations should be performed efficiently when surrounding values provide bounds for inner values.
+Given a range `1:n`, return indices in "interval-halving" order.
+The purpose is to determine the order in which ordered computations should be performed efficiently when surrounding values provide bounds for inner values.
 
-# # Example
-# ```
-# bisecting_indices(5) == [1, 5, 3, 2, 4]
-# ```
-# """
+# Example
+```
+bisecting_indices(5) == [1, 5, 3, 2, 4]
+```
+"""
 function bisecting_indices(iLow :: I1, iHigh :: I1) where I1 <: Integer
     n = iHigh - iLow + 1;
     if n < 3
@@ -104,6 +104,17 @@ function find_indices(valueV, gridV;  notFoundError :: Bool = false)
 end
 
 
+"""
+	$(SIGNATURES)
+
+Find the next grid point starting with index `startIdx` that is equal to `value`.
+
+# Example
+```
+julia> find_index(6.0, collect(1.0 : 10.0); startIdx = 3)
+6
+```
+"""
 function find_index(value :: T1, gridV;  startIdx = 1)  where T1 <: Number
     # First grid point (weakly) above current value
     idx = findnext(x -> x >= value, gridV, startIdx);
@@ -139,6 +150,12 @@ all_at_most(xV, ub) = all(x -> x <= ub, xV);
 	$(SIGNATURES)
 
 Strictly check that all elements are above a lower bound.
+
+# Example
+```
+julia> all_greater([1.0, 2.0], 0.9999; atol = 0.01)
+true
+```
 """
 all_greater(xV, lb :: F1; atol = zero(F1)) where F1 <: Real = 
     all(x -> x > lb - atol, xV);
@@ -187,6 +204,11 @@ Check that at least some element is below an upper bound.
 any_less(xV, ub :: F1; atol = zero(F1)) where F1 =  
     any(x -> x < ub - atol, xV);
 
+"""
+	$(SIGNATURES)
+
+Check if any array element is NaN.
+"""
 any_nan(xV) = any(x -> isnan(x), xV);
 
 # module VectorLH

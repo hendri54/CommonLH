@@ -3,7 +3,7 @@
 
 module CommonLH
 
-using ArgCheck, DocStringExtensions, Formatting, Printf
+using ArgCheck, DocStringExtensions, Formatting, Printf, StatsBase
 
 # Check
 export check_float, check_float_array
@@ -25,6 +25,8 @@ export AbstractGrid, LinearGrid, LinSpacedGrid, PowerSpacedGrid, grid, intervals
 export validate_prob_matrix, validate_prob_vector, prob_j, prob_k, prob_j_k, prob_k_j, ev_given_j, ev_given_k, scale_prob_array!
 # Arrays
 export bracket_array!, scale_array!
+# Discretize
+export discretize, bin_edges_from_percentiles, discretize_given_percentiles, count_bins
 
 include("kwargs.jl")
 include("check.jl")
@@ -34,6 +36,7 @@ include("vector.jl")
 include("grids.jl")
 include("probabilities.jl")
 include("arrays.jl");
+include("stats/discretize.jl");
 
 # export validate, validate_scalar
 # include("check.jl")

@@ -55,4 +55,12 @@ show_text_file
 show_string_vector
 ```
 
+## Discretizing vectors
+
+```@docs
+discretize
+discretize_given_percentiles
+bin_edges_from_percentiles
+```
+
 --------------
