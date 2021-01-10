@@ -3,8 +3,8 @@
 
 Discretize given percentiles (unweighted). The smallest `pctV[1]` of values in `inV` end up in bin 1, etc.
 """
-function discretize_given_percentiles(inV :: Vector{F1}, 
-    pctV :: Vector{F2}) where {F1, F2}
+function discretize_given_percentiles(inV :: AbstractVector{F1}, 
+    pctV :: AbstractVector{F2}) where {F1, F2}
 
     edgeV = bin_edges_from_percentiles(inV, pctV);
     return discretize(inV, edgeV)
@@ -16,7 +16,7 @@ end
 
 Discretize given percentiles (weighted). The smallest `pctV[1]` of values in `inV` end up in bin 1, etc.
 """
-function discretize_given_percentiles(inV :: Vector{F1}, 
+function discretize_given_percentiles(inV :: AbstractVector{F1}, 
     wtV :: AbstractVector{F2}, 
     pctV :: AbstractVector{F3}) where {F1, F2, F3}
 
@@ -27,7 +27,7 @@ end
 
 ## Discretize given bounds
 # Equivalent to Discretizers LinearDiscretizer
-function discretize(inV :: Vector{F1}, 
+function discretize(inV :: AbstractVector{F1}, 
     edgeV :: AbstractVector{F2}) where {F1, F2}
 
     n = length(edgeV);

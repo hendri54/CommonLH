@@ -135,16 +135,22 @@ end
 """
 	$(SIGNATURES)
 
-Check that all elements are above an lower bound.
+Check that all elements are above a scalar lower bound.
 """
-all_at_least(xV, lb) = all(x -> x >= lb, xV);
+all_at_least(xV, lb :: Real) = all(x -> x >= lb, xV);
+
+all_at_least(xV :: AbstractArray{T1,N}, lbV :: AbstractArray{T2,N}) where {T1,T2,N} =
+    all(j -> xV[j] >= lbV[j], eachindex(xV));
 
 """
 	$(SIGNATURES)
 
-Check that all elements are below an upper bounds.
+Check that all elements are below a scalar upper bounds.
 """
-all_at_most(xV, ub) = all(x -> x <= ub, xV);
+all_at_most(xV, ub :: Real) = all(x -> x <= ub, xV);
+
+all_at_most(xV :: AbstractArray{T1,N}, lbV :: AbstractArray{T2,N}) where {T1,T2,N} =
+    all(j -> xV[j] <= lbV[j], eachindex(xV));
 
 """
 	$(SIGNATURES)

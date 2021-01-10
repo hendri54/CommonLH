@@ -1,5 +1,20 @@
 using Random, Test, CommonLH
 
+function compare_test()
+    @testset "Comparisons" begin
+        rng = MersenneTwister(12);
+        x = rand(rng, 4,3);
+        xMin, xMax = extrema(x);
+        @test all_at_least(x, xMin)
+        @test !all_at_least(x, xMin + 1e-6)
+        @test all_at_most(x, xMax)
+        @test !all_at_most(x, xMax - 1e-6)
+
+        @test all_at_least(x, x .- 1e-5)
+        @test all_at_most(x, x .+ 1e-5)
+    end
+end
+
 function scale_array_test()
     @testset "Scale array" begin
         x = rand(4,3,2);
@@ -35,6 +50,7 @@ end
 
 
 @testset "Arrays" begin
+    compare_test();
     scale_array_test()
     bracket_array_test()
 end
