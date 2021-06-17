@@ -34,5 +34,16 @@ function bracket_array!(x :: F1, lb :: F1, ub :: F1) where F1 <: AbstractArray
     return nothing
 end
 
+function bracket_array!(xM :: AbstractArray{F1}, lb :: F1, ub :: F1) where F1
+    for (k, x) in enumerate(xM)
+        if x > ub
+            xM[k] = ub;
+        end
+        if x < lb
+            xM[k] = lb;
+        end
+    end
+end
+
 
 # ------------

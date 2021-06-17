@@ -36,7 +36,8 @@ end
 
 Check that a numeric array is finite, not NaN, and inside bounds.
 """
-function check_float_array(m :: Array{T1}, lb :: T2, ub :: T2) where {T1 <: AbstractFloat, T2 <: AbstractFloat}
+function check_float_array(m :: AbstractArray{T1}, 
+    lb :: T2, ub :: T2) where {T1 <: AbstractFloat, T2 <: AbstractFloat}
 
     isValid = true;
 

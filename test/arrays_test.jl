@@ -48,11 +48,23 @@ function bracket_array_test()
 	end
 end
 
+function bracket_array_scalar_test()
+    @testset "Bracket array in scalars" begin
+        x = [1.0 1.1 1.2; 2.0 2.1 2.2];
+        ub = 2.099;
+        lb = 1.099;
+        bracket_array!(x, lb, ub);
+        @test all(x .<= ub);
+        @test all(x .>= lb);
+    end
+end
+
 
 @testset "Arrays" begin
     compare_test();
     scale_array_test()
-    bracket_array_test()
+    bracket_array_test();
+    bracket_array_scalar_test();
 end
 
 # -------------
