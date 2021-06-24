@@ -11,7 +11,8 @@ test_dir() = joinpath(@__DIR__, "test_files");
 	include("grid_test.jl")
 	include("vector_test.jl")
 	include("probabilities_test.jl")
-	include("arrays_test.jl")
+	include("arrays_test.jl");
+	include("struct_test.jl");
 	include("statistics/discretize_test.jl");
 	# include("check_test.jl")
 	# # include("files_test.jl")
