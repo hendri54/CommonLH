@@ -11,8 +11,6 @@ export MultiIO, print_flush, println_flush
 export KwArgs, default_value, has_default, kw_arg
 # User input
 export ask_for_choice, ask_yes_no
-# Structs
-export @common_fields
 # Vector
 export bisecting_indices, find_indices, find_index,
     all_at_least, all_at_most, all_greater, all_less,
@@ -37,36 +35,6 @@ include("probabilities.jl")
 include("arrays.jl");
 include("stats/discretize.jl");
 
-"""
-	$(SIGNATURES)
-
-Macro that defines common struct fields.
-From 
-
-# Example
-```julia
-
-@common_fields foo_fields begin
-    #Data
-    X #Feature vectors
-    y #Labels (-1,1)
-    nSamples::Int64 # Number of data points
-    nFeatures::Int64 # Number of features
-end
-
-struct Foo
-	@foo_fields
-	z
-end
-```
-"""
-macro common_fields(name, definition)
-    return quote
-        macro $(esc(name))()
-            esc($(Expr(:quote, definition)))
-        end
-    end
-end
 
 # export validate, validate_scalar
 # include("check.jl")
