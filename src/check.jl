@@ -80,7 +80,7 @@ Check that an array is monotone along one dimension (weak or strict).
 Based on `diff` in `Base`.
 """
 function is_monotone(a :: AbstractArray{T,N}, d :: Integer; 
-    increasing, strict) where {T,N}
+    increasing, strict, atol = zero(T)) where {T,N}
 
     1 <= d <= N || throw(ArgumentError("dimension $d out of range (1:$N)"));
 
@@ -99,7 +99,8 @@ function is_monotone(a :: AbstractArray{T,N}, d :: Integer;
 
     success = true;
     for idx in eachindex(v1)
-        op(v1[idx] - v0[idx], zero(T))  ||  (success = false; break);
+        # E.g.: v1-v0 > -1e-8
+        op(v1[idx] - v0[idx], -atol)  ||  (success = false; break);
     end
     return success
 end

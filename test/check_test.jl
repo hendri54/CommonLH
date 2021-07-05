@@ -38,11 +38,15 @@ function monotone_test(N :: Integer)
 
                     # Make array that is monotone in dimension d
                     m2 = copy(m1);
+                    m3 = copy(m1);
                     increasing  ?  (dx = 0.001)  :  (dx = -0.001);
                     for j = 2 : sizeV[d]
                         selectdim(m2, d, j) .= selectdim(m2, d, j-1) .+ dx;
+                        selectdim(m3, d, j) .= selectdim(m3, d, j-1);
                     end
                     @test is_monotone(m2, d; strict, increasing);
+                    # Array is constant along dimension d
+                    @test is_monotone(m2, d; strict, increasing, atol = 1e-6);
                 end
             end
         end
