@@ -3,7 +3,7 @@ module CommonLH
 using ArgCheck, DocStringExtensions, Formatting, Printf, StatsBase
 
 # Check
-export check_float, check_float_array
+export check_float, check_float_array, is_monotone
 # Display
 export show_text_file, show_string_vector
 export MultiIO, print_flush, println_flush

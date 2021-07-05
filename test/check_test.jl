@@ -26,9 +26,38 @@ function check_array_test()
 end
 
 
+function monotone_test(N :: Integer)
+    rng = MersenneTwister(434);
+    @testset "Monotone" begin
+        sizeV = 6 : -1 : (7 - N);
+        m1 = randn(rng, sizeV[1 : N]...);
+        for strict in (true, false)
+            for increasing in (true, false)
+                for d = 1 : N
+                    @test !is_monotone(m1, d; strict, increasing);
+
+                    # Make array that is monotone in dimension d
+                    m2 = copy(m1);
+                    increasing  ?  (dx = 0.001)  :  (dx = -0.001);
+                    for j = 2 : sizeV[d]
+                        selectdim(m2, d, j) .= selectdim(m2, d, j-1) .+ dx;
+                    end
+                    @test is_monotone(m2, d; strict, increasing);
+                end
+            end
+        end
+
+
+    end
+end
+
+
 @testset "Checks" begin
     check_float_test()
     check_array_test()
+    for N = 1 : 3
+        monotone_test(N);
+    end
 end
 
 # ------------

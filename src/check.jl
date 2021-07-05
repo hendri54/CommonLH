@@ -71,4 +71,37 @@ function check_float_array(m :: AbstractArray{T1},
     return isValid
 end
 
+
+"""
+	$(SIGNATURES)
+
+Check that an array is monotone along one dimension (weak or strict).
+
+Based on `diff` in `Base`.
+"""
+function is_monotone(a :: AbstractArray{T,N}, d :: Integer; 
+    increasing, strict) where {T,N}
+
+    1 <= d <= N || throw(ArgumentError("dimension $d out of range (1:$N)"));
+
+    r = axes(a);
+    r0 = ntuple(i -> i == d ? UnitRange(1, last(r[i]) - 1) : UnitRange(r[i]), N);
+    r1 = ntuple(i -> i == d ? UnitRange(2, last(r[i])) : UnitRange(r[i]), N);
+
+    v0 = view(a, r0...);
+    v1 = view(a, r1...);
+
+    if increasing
+        strict  ?  (op = >)  :  (op = >=);
+    else
+        strict  ?  (op = <)  :  (op = <=);
+    end
+
+    success = true;
+    for idx in eachindex(v1)
+        op(v1[idx] - v0[idx], zero(T))  ||  (success = false; break);
+    end
+    return success
+end
+
 # ------------------
