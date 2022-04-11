@@ -1,6 +1,3 @@
-# Probability computations
-
-
 """
 	$(SIGNATURES)
 
@@ -86,27 +83,27 @@ ev_given_k(x :: AbstractMatrix, prM :: AbstractMatrix) =
     [ev_given_k(x, prM, k)  for k = 1 : size(x, 2)];
 
 
-    """
+"""
     $(SIGNATURES)
 
 Given an array of probabilities: ensure that all are in [0, 1]. 
 Error if bounds violation larger than rounding errors.
 Make sure that sum does not exceed an upper bound.
 """
-function scale_prob_array!(m :: AbstractArray{F1}; maxSum :: F1 = one(F1)) where F1 <: AbstractFloat
+function scale_prob_array!(m :: AbstractArray{F1}; 
+    maxSum :: F1 = one(F1), fSmall = F1(.0000001)) where F1 <: Number
 
-    fSmall = F1(.0000001);
-    pSum = sum(m);
-    @assert (pSum < one(F1) + fSmall)  "Sum too large: $pSum"
     @assert all_at_least(m, -fSmall)  "Negative probabilities"
     @assert all_at_most(m, one(F1) + fSmall)  "Probabilities above 1"
 
-    if any(x -> x < zero(F1), m)
-        m[findall(x -> x < zero(F1), m)] .= zero(F1);
-    end
+    clamp!(m, zero(F1), one(F1));
+
+    pSum = sum(m);
+    @assert (pSum < maxSum + fSmall)  "Sum too large: $pSum > $maxSum";
     if pSum > maxSum
         m .*= ((maxSum - fSmall) / pSum);
     end
+    return nothing
 end
 
 

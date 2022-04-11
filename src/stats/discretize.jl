@@ -25,13 +25,17 @@ function discretize_given_percentiles(inV :: AbstractVector{F1},
 end
 
 
-## Discretize given bounds
-# Equivalent to Discretizers LinearDiscretizer
+"""
+Discretize given bounds
+Equivalent to Discretizers LinearDiscretizer
+Below lowest edge goes into class 0.
+Above top edge also gets class 0.
+"""
 function discretize(inV :: AbstractVector{F1}, 
     edgeV :: AbstractVector{F2}) where {F1, F2}
 
     n = length(edgeV);
-    outV = zeros(Int64, size(inV));
+    outV = zeros(Int, size(inV));
     for i1 = n : -1 : 2
         outV[inV .<= edgeV[i1]] .= i1 - 1;
     end
@@ -39,6 +43,15 @@ function discretize(inV :: AbstractVector{F1},
     return outV
 end
 
+function discretize(x :: Number, edgeV :: AbstractVector{F2}) where F2
+    if x < first(edgeV) 
+        return 0
+    elseif x > last(edgeV)
+        return 0
+    else
+        return findlast(edge -> x > edge, edgeV);
+    end
+end
 
 
 """

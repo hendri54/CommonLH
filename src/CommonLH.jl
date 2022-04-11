@@ -27,7 +27,8 @@ export discretize, bin_edges_from_percentiles, discretize_given_percentiles, cou
 
 include("kwargs.jl")
 include("check.jl")
-include("display.jl")
+include("display.jl");
+include("logging.jl");
 include("user_input.jl")
 include("vector.jl")
 include("grids.jl")

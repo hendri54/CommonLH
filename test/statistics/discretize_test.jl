@@ -10,6 +10,8 @@ function discretize_test()
 
 		for ix = 1 : n
 			iCl = outV[ix];
+            iCl2 = discretize(inV[ix], edgeV);
+            @test iCl == iCl2;
 			if iCl > 0
 				@test inV[ix] >= edgeV[iCl]  &&  inV[ix] <= edgeV[iCl+1]
 			else

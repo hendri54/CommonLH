@@ -7,7 +7,7 @@ test_dir() = joinpath(@__DIR__, "test_files");
 @testset "CommonLH" begin
 	include("kwargs_test.jl")
 	include("check_test.jl")
-	include("display_test.jl")
+	include("display_test.jl");
 	include("grid_test.jl")
 	include("vector_test.jl")
 	include("probabilities_test.jl")
