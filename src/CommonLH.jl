@@ -23,10 +23,12 @@ export validate_prob_matrix, validate_prob_vector, prob_j, prob_k, prob_j_k, pro
 # Arrays
 export bracket_array!, scale_array!
 # Discretize
-export discretize, bin_edges_from_percentiles, discretize_given_percentiles, count_bins
+export discretize, bin_edges_from_percentiles, discretize_given_percentiles;
+export discretize_from_ub, count_bins;
 
 include("kwargs.jl")
 include("check.jl")
+include("comparisons.jl");
 include("display.jl");
 include("logging.jl");
 include("user_input.jl")

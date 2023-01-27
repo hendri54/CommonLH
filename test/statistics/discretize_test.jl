@@ -21,6 +21,22 @@ function discretize_test()
 	end
 end
 
+function discretize_from_ub_test()
+    @testset "Discretize from ub" begin
+        n = 7;
+        inV = collect(range(1, 10, length = n));
+        ubV = LinRange(0.0, 11.0, 20);
+        for x in inV
+            iCl = discretize_from_ub(x, ubV);
+            if iCl > 0
+                @test x <= ubV[iCl];
+            else
+                @test x > last(ubV);
+            end
+        end
+    end
+end
+
 
 ## Test bin edges (unweighted)
 function bin_edges_test()
@@ -90,7 +106,8 @@ end
 
 
 @testset "Discretize" begin
-   discretize_test()
+   discretize_test();
+   discretize_from_ub_test();
    discretize_given_pct_weighted_test();
    bin_edges_test();
    bin_edges_weighted_test();

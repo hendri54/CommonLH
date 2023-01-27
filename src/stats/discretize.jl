@@ -26,7 +26,9 @@ end
 
 
 """
-Discretize given bounds
+    $(SIGNATURES)
+
+Discretize given bounds.
 Equivalent to Discretizers LinearDiscretizer
 Below lowest edge goes into class 0.
 Above top edge also gets class 0.
@@ -52,6 +54,25 @@ function discretize(x :: Number, edgeV :: AbstractVector{F2}) where F2
         return findlast(edge -> x > edge, edgeV);
     end
 end
+
+"""
+    $(SIGNATURES)
+
+Assign bins from interval upper bounds. Bins are inclusive of upper bounds.
+Below first upper bound: bin 1.
+Above top upper bound: bin 0.
+This is much faster than discretize which uses edges. Because constructing the edges requires a vcat.
+"""
+function discretize_from_ub(x, ubV)
+    if x <= first(ubV) 
+        return 1
+    elseif x > last(ubV)
+        return 0
+    else
+        return findfirst(ub -> ub >= x, ubV);
+    end
+end
+
 
 
 """

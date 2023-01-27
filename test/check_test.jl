@@ -19,9 +19,9 @@ function check_array_test()
         lb = -1.0;
         ub = Inf;
         m = lb .+ rand(rng, T1, dimV...);
-        @test check_float_array(m, lb, ub)
+        @test check_float_array(m, lb, ub; msg = "Check float msg");
         m[10] = lb - 1e-5;
-        @test !check_float_array(m, lb, ub)
+        @test !check_float_array(m, lb, ub; msg = "Check float msg");
 	end
 end
 
