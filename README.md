@@ -1,7 +1,9 @@
 # CommonLH.jl
 
-## Change Log
+## Change Log 2023
 
-2023-Jan-27: v1.0
+Feb-13
+- `show_string_vector` arg `stringWidth` (v1.0.1)
+Jan-27: v1.0
 
 # --------------------

@@ -18,31 +18,39 @@ end
     $(SIGNATURES)
 
 Display string vector on fixed with screen.
-"""
-function show_string_vector(sV :: Vector{T1},  width :: Integer = 80) where
-    T1 <: AbstractString
 
-    n = length(sV);
-    if n < 1
-        return nothing
-    end
+# Arguments
+- `width`: Width of screen in characters.
+- `stringWidth`: If positive, pad all strings to this width. Strings that are longer remain unchanged.
+"""
+function show_string_vector(sV :: Vector{T1},  width :: Integer = 80;
+        stringWidth = 0,
+        io :: IO = stdout)  where T1 <: AbstractString
+
+    isempty(sV)  &&  return nothing;
 
     iCol = 0;
     for s in sV
         len1 = length(s);
         if len1 > 0
+            if len1 < stringWidth
+                # Not efficient, but easy
+                s = rpad(s, stringWidth);
+                len1 = stringWidth;
+            end
             if iCol + len1 > width
-                println(" ")
+                println(io, " ")
                 iCol = 0;
             end
-            print(s);
+            print(io, s);
             iCol = iCol + len1;
-            print("    ");
+            print(io, "    ");
             iCol = iCol + 4;
         end
     end
-    println(" ")
+    println(io, " ")
 end
+
 
 
 function string_vector_to_lines(sV :: Vector{T1}, width :: Integer = 80) where

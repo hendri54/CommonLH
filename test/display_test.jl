@@ -8,10 +8,13 @@ function display_test()
 		# 	DisplayLH.printf(fmtStr, z)
 		# end
 
-		sV = ["aaaa aaaa", "bbb bbb bbb", "cccccc cccccc cccccc", "dddddddddd"];
-		CommonLH.show_string_vector(sV, 25);
+		sV = ["aaaa aaaa", "bbb bbb bbb", "cccccc cccccc cccccc", "dddddddddd",
+			"eee", "fff", "ggg ggg ggg"];
+		stringWidth = maximum(length.(sV));
+		CommonLH.show_string_vector(sV, 2 * stringWidth + 6; 
+			stringWidth);
 		lineV = CommonLH.string_vector_to_lines(sV, 25);
-		@test length(lineV) == 3
+		@test length(lineV) == 4;
 		@test startswith(lineV[1], sV[1])
 		@test startswith(lineV[2], sV[3])
 		@test startswith(lineV[3], sV[4])
