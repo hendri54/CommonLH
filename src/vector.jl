@@ -1,6 +1,20 @@
 """
 	$(SIGNATURES)
 
+Find first occurrence of `y` in Vector `yV`. `Nothing` if not match.
+"""
+function findfirst_equal(y :: F1, yV :: AbstractVector{F1}) where F1
+    return findfirst(x -> (x == y), yV)
+end
+
+function findfirst_equal(y :: F1, yV :: F1) where F1
+    (y == yV)  ?  1  :  nothing;
+end
+
+
+"""
+	$(SIGNATURES)
+
 Given a range `1:n`, return indices in "interval-halving" order.
 The purpose is to determine the order in which ordered computations should be performed efficiently when surrounding values provide bounds for inner values.
 

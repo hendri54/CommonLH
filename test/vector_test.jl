@@ -1,5 +1,14 @@
 using CommonLH, Test
 
+function findfirst_equal_test()
+	@testset "Find first equal" begin
+		@test findfirst_equal(22, [1,22,3]) == 2;
+		@test isnothing(findfirst_equal(22, [1,2,3]));
+		@test findfirst_equal(2, 2) == 1;
+		@test isnothing(findfirst_equal(2, 3));
+	end
+end
+
 function compare_test()
 	@testset "Comparisons" begin
 		x = [1.0 1.1 1.2; 2.0 2.1 2.2];
@@ -128,8 +137,8 @@ end
 # end
 
 @testset "vectorLH" begin
-	println("Test set vectorLH")
-	find_indices_test()
+	findfirst_equal_test();
+	find_indices_test();
 	bisecting_test();
 	compare_test();
 end

@@ -43,8 +43,16 @@ function bracket_array_test()
         z = copy(x);
         bracket_array!(z, lb, ub);
         @test !isequal(z, x)
-        @test all(z .<= ub)
-        @test all(z .>= lb)
+        @test all(z .<= ub);
+        @test all(z .>= lb);
+
+        z = copy(x);
+        bracket_array!(z, nothing, nothing);
+        @test z == x;
+        bracket_array!(z, nothing, ub);
+        @test all(z .<= ub);
+        bracket_array!(z, lb, nothing);
+        @test all(z .>= lb);
 	end
 end
 
