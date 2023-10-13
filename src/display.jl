@@ -135,6 +135,8 @@ function Base.flush(io :: MultiIO)
     end
 end
 
+# To avoid error "does not support ByteIO"
+Base.write(io :: MultiIO, x :: UInt8) = print(io, x);
 
 
 # """
