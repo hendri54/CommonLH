@@ -9,7 +9,7 @@ function findfirst_equal_test()
 	end
 end
 
-function compare_test()
+function compare_vectors_test()
 	@testset "Comparisons" begin
 		x = [1.0 1.1 1.2; 2.0 2.1 2.2];
 		@test any_greater(x, 2.1999)
@@ -140,7 +140,7 @@ end
 	findfirst_equal_test();
 	find_indices_test();
 	bisecting_test();
-	compare_test();
+	compare_vectors_test();
 end
 
 # ----------

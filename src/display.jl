@@ -87,37 +87,63 @@ end
 Object that holds multiple IO streams, so that a single `print` statement can be directed to all of them. Main use case: selectively write to optimization log and stdout.
 This must be a subtype of IO for dispatch to work correctly.
 
+Leads to method ambiguities, unless `print` and `println` are defined for each type.
+E.g. `print(::IO, ::Unsigned)` vs `print(::MultiIO, args...)`.
+Defining `print(::MultiIO, ::T) where T` does not help.
+
 Based on https://discourse.julialang.org/t/issues-with-println-buffering-output-when-redirecting-stdout-to-a-txt-file/23738/13
+
+# Example
+```
+fPath = "test.txt";
+open(fPath, "w") do io
+    mio = MultiIO([stdout, io]);
+    print(mio, "Line 1\n");
+    println(mio, "Line 2");
+end
+```
 """
 struct MultiIO{T} <: IO
     ioV :: Vector{T}
 end
 
-function Base.print(io :: MultiIO, args...)
-    for io in io.ioV
-        print(io, args...);
-    end
-end
-
-# Avoid method ambiguity
-function Base.print(io :: MultiIO, s :: Union{SubString{String}, String})
+function multi_print(io :: MultiIO, s)
     for io in io.ioV
         print(io, s);
     end
 end
 
-function Base.println(io :: MultiIO, args...)
+function multi_print(io :: MultiIO, args...)
+    for io in io.ioV
+        print(io, args);
+    end
+end
+
+function multi_println(io :: MultiIO, s)
+    for io in io.ioV
+        println(io, s);
+    end
+end
+
+function multi_println(io :: MultiIO, args...)
     for io in io.ioV
         println(io, args...);
     end
 end
 
+Base.print(io :: MultiIO, args...) = multi_print(io, args...);
+
 # Avoid method ambiguity
-function Base.println(io :: MultiIO, s :: Union{SubString{String}, String})
-    for io in io.ioV
-        println(io, s);
-    end
-end
+Base.print(io :: MultiIO, s :: Union{SubString{String}, String}) = 
+    multi_print(io, s);
+Base.print(io :: MultiIO, x :: Unsigned) = multi_print(io, x);
+
+Base.println(io :: MultiIO, args...) = multi_println(io, args...);
+
+# Avoid method ambiguity (probably not needed; only `print is needed)`)
+Base.println(io :: MultiIO, s :: Union{SubString{String}, String}) = 
+    multi_println(io, s);
+
 
 function print_flush(io :: MultiIO, args...)
     print(io, args...);

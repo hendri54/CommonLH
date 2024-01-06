@@ -28,11 +28,15 @@ function multi_io_test()
 			mio = MultiIO([stdout, io]);
 			print(mio, "Line 1\n");
 			println(mio, "Line 2");
+			println(mio, UInt8(3));
+			print(mio, UInt8(4)); print(mio, "\n");
 		end
 		lineV = readlines(fPath);
 		for j = 1 : 2
 			@test lineV[j] == "Line $j"
 		end
+		@test lineV[3] == "3";
+		@test lineV[4] == "4";
 	end
 end
 
