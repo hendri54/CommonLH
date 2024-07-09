@@ -4,6 +4,9 @@
 
 ## Change Log 2024
 
+July-9 (v1.3)
+- replaced Formatting.jl
+
 Jan-6 (v1.2.2)
 - Base.print(MultiIO, Unsigned)
 

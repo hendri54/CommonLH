@@ -1,6 +1,6 @@
 module CommonLH
 
-using ArgCheck, DocStringExtensions, Formatting, Printf, StatsBase
+using ArgCheck, DocStringExtensions, Format, Printf, StatsBase
 
 # Check
 export check_float, check_float_array, is_monotone
