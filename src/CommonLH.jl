@@ -39,16 +39,106 @@ include("arrays.jl");
 include("stats/discretize.jl");
 
 
-# export validate, validate_scalar
-# include("check.jl")
+# --- Merged from StructLH ---
+export @common_fields
+export retrieve_property, has_property, retrieve_child_property
+export merge_object_arrays!, reduce_object_vector
+export ApplyFctResult, apply_fct_to_object, obj_name, obj_type, fct_value, children
+export describe, describe_object, show_description
+export NodeInfo, struct2dict, dict2struct!
+# Reductions
+export reduce_scalar_vector, reduce_array_vector
+
+# --- Merged from StructLH ---
+include("structlh_helpers.jl");
+include("retrieve.jl")
+include("reduce.jl");
+include("struct2dict.jl")
+include("traverse_object.jl")
+
+"""
+    merge_object_arrays!
+
+Merge all arrays (and vectors) from object `oSource` into the corresponding arrays
+in another object `oTg` (at given index values `idxV`).
+If target does not have corresponding field: behavior is governed by `skipMissingFields`.
+
+# Arguments
+- idxV
+    `Vector{Integer}` or other iterable with integer results. Indexes the first dimension of each object to be copied.
+    The assignment is: `oSource.x[i1,:] => oTg.x[idxV[i1],:]`.
+"""
+function merge_object_arrays!(oSource, oTg, idxV,
+    skipMissingFields :: Bool; dbg :: Bool = false)
+
+    for propName in propertynames(oSource)
+        xSrc = getproperty(oSource, propName);
+        if isa(xSrc,  Array)
+            # Does target have this field?
+            if hasproperty(oTg, propName)
+                xTg = getproperty(oTg, propName);
+                if dbg
+                    @assert size(xSrc, 1) == length(idxV)
+                    @assert size(xSrc)[2:end] == size(xTg)[2:end] "Size mismatch: $(size(xSrc)) vs $(size(xTg))"
+                end
+                # The n-dim array code also works for Vectors, but is less efficient.
+                if isa(xSrc, Vector)
+                    xTg[idxV] .= xSrc;
+                elseif isa(xSrc, Matrix)
+                    xTg[idxV, :] .= xSrc;
+                else
+                    # For multidimensional arrays (we don't know the dimensions!)
+                    # we need to loop over "rows". This is expensive.
+                    for (i1, idx) in enumerate(idxV)
+                        # This selects target "row" `idx`
+                        tgView = selectdim(xTg, 1, idx);
+                        # Copy source "row" `i1` into target row (in place, hence [:])
+                        tgView[:] = selectdim(xSrc, 1, i1);
+                    end
+                end
+            elseif !skipMissingFields
+                error("Missing field $propName in target object")
+            end
+        end
+    end
+    return nothing
+end
 
 
-# include("matrix.jl")
+# --- Merged from ModelObjectsLH ---
+export SingleId, has_index, make_string, make_single_id
+export ObjectId, make_object_id, make_child_id, own_name, n_parents, description
+export ModelSwitches
+export ModelObject, is_model_object, get_object_id,
+    collect_model_objects, collect_model_objects_for_any, collect_object_ids, get_child_objects, find_object, find_only_object, get_value
+export object_structure, show_object_structure
 
-# include("statistics.jl")
+const ObjIdSeparator = " > ";
 
-# export test_header, test_divider, test_dir
-# include("testing.jl")
+"""
+    ModelObject
+
+Abstract model object
+Must have field `objId :: ObjectId` that uniquely identifies it
+May contain a ParamVector, but need not.
+
+Child objects may be vectors. Then the vector must have a fixed element type that is
+a subtype of `ModelObject`
+"""
+abstract type ModelObject end
+
+"""
+	$(SIGNATURES)
+
+Switches from which `ModelObject` is constructed.
+"""
+abstract type ModelSwitches end
+
+# --- Merged from ModelObjectsLH ---
+include("single_id.jl");
+include("object_id.jl");
+# include("model_switches.jl");
+include("m_objects.jl");
 
 
 end # module

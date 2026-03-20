@@ -115,7 +115,7 @@ end
 
 function multi_print(io :: MultiIO, args...)
     for io in io.ioV
-        print(io, args);
+        print(io, args...);
     end
 end
 

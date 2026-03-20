@@ -18,6 +18,15 @@ test_dir() = joinpath(@__DIR__, "test_files");
 	# # include("files_test.jl")
 	# include("matrix_test.jl")
 	# include("statistics_test.jl")
+
+	# --- Tests merged from StructLH ---
+	include("structlh_test.jl");
+
+	# --- Tests merged from ModelObjectsLH ---
+	include("test_model.jl");
+	include("single_id_test.jl");
+	include("object_id_test.jl");
+	include("m_objects_test.jl");
 end
 
 # -----------
