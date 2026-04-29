@@ -37,9 +37,9 @@ function find_test()
         m2 = find_object(m, m.objId);
         @test m2 isa TestModel
 
-        # Get value of a parameter
-        b = get_value(m, :o2, :b);
-        @test isequal(m.o2.b, b)
+        # Get value of a field in a child object
+        obj2 = find_only_object(m, :o2);
+        @test isequal(m.o2.b, obj2.b)
     end
 end
 

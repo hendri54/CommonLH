@@ -247,16 +247,9 @@ end
 find_only_object(o, oName :: Symbol) = nothing;
 
 
-# ModelParams overrides this with a version that retrieves calibrated parameter values.
-"""
-	$(SIGNATURES)
-
-Retrieve the value of field `pName` from child object `oName` in a `ModelObject`.
-"""
-function get_value(x :: ModelObject, oName :: Symbol, pName :: Symbol)
-    obj = find_only_object(x, oName);
-    return getfield(obj, pName)
-end
+# `get_value(x :: ModelObject, oName, pName)` is defined in ModelParams
+# which provides a version that retrieves calibrated parameter values.
+function get_value end
 
 
 ## -----------  Show
